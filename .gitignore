@@ -1,0 +1,12 @@
+.svn/
+target/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.tmp
+*.log
+~__jb_bak__
+~__jb_old__
+*~
