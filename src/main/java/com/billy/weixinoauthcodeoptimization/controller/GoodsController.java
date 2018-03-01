@@ -1,15 +1,16 @@
 package com.billy.weixinoauthcodeoptimization.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.billy.weixinoauthcodeoptimization.util.HttpClientUtil;
-import com.billy.weixinoauthcodeoptimization.util.ServerPropertiesUtil;
+import com.billy.weixinoauthcodeoptimization.controller.wx.WxOAuth2Controller;
+import com.billy.weixinoauthcodeoptimization.controller.wx.WxRedirectController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author liulei@bshf360.com
@@ -17,34 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/goods")
-public class GoodsController {
+public class GoodsController extends WxOAuth2Controller {
     private static final Logger LOG = LoggerFactory.getLogger(GoodsController.class);
 
-    private static final String APPID = ServerPropertiesUtil.getAppId();
-    private static final String SECRET = ServerPropertiesUtil.getSecret();
-    private static final String PROJECT_BASE_URL = ServerPropertiesUtil.getProjectBaseUrl();
+    @Autowired
+    private WxRedirectController wxRedirectController;
+
 
     @GetMapping("list")
-    public String to(String code, Model model) {
-        String openid = getOpenidByCode(code);
-
-        model.addAttribute("openid", openid);
+    public String to(HttpServletRequest request, Model model) {
+        Object openidTokenObj = request.getSession().getAttribute(WxRedirectController.WX_OPENID_TOKEN);
+        LOG.debug("openid: " + openidTokenObj);
+        model.addAttribute("openid", openidTokenObj);
         return "goods/list";
     }
 
-    /**
-     * 根据code获取用户id
-     * @param code code
-     */
-    private String getOpenidByCode(String code) {
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APPID +
-                "&secret=" + SECRET +
-                "&code=" + code +
-                "&grant_type=authorization_code";
-        String doGet = HttpClientUtil.doGet(url, null, null);
-        LOG.debug("msg: " + doGet);
-        JSONObject jsonObject = JSON.parseObject(doGet);
-        return jsonObject.getString("openid");
-    }
 
 }
