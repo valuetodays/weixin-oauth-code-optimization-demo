@@ -3,7 +3,6 @@ package com.billy.weixinoauthcodeoptimization.controller.wx;
 import com.billy.weixinoauthcodeoptimization.util.ServerPropertiesUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -24,9 +23,6 @@ public class WxOAuth2Controller {
     private static final String APPID = ServerPropertiesUtil.getAppId();
     private static final String PROJECT_BASE_URL = ServerPropertiesUtil.getProjectBaseUrl();
 
-    @Autowired
-    private WxRedirectController wxRedirectController;
-
     @ModelAttribute
     public void beforeH5Page(HttpServletRequest request)  {
         try {
@@ -46,8 +42,6 @@ public class WxOAuth2Controller {
                         + "&response_type=code&scope=snsapi_base&state=234545#wechat_redirect";
                 LOG.debug("access wx with url: " + url);
                 request.getSession().setAttribute(WxRedirectController.WX_OAUTH2_URL, url);
-
-                wxRedirectController.toOAuth2();
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

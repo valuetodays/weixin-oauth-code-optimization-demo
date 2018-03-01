@@ -28,9 +28,14 @@ public class GoodsController extends WxOAuth2Controller {
     @GetMapping("list")
     public String to(HttpServletRequest request, Model model) {
         Object openidTokenObj = request.getSession().getAttribute(WxRedirectController.WX_OPENID_TOKEN);
-        LOG.debug("openid: " + openidTokenObj);
-        model.addAttribute("openid", openidTokenObj);
-        return "goods/list";
+        if (openidTokenObj == null) {
+            wxRedirectController.toOAuth2();
+        } else {
+            LOG.debug("openid: " + openidTokenObj);
+            model.addAttribute("openid", openidTokenObj);
+            return "goods/list";
+        }
+        return "error";
     }
 
 
