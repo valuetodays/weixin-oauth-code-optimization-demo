@@ -18,7 +18,8 @@
 </head>
 
     <body>
-        Your openid: ${openid}
+        当前页面: <script>document.write(window.location.href)</script> <br />
+        openid: ${openid} <br />
 
     </body>
 </html>
