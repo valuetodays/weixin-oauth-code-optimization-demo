@@ -23,9 +23,10 @@ public class GoodsController {
     @GetMapping("list")
     public String to(HttpServletRequest request, Model model) {
         Object openidTokenObj = request.getSession().getAttribute(WxOAuth2Interceptor.WX_OPENID_TOKEN);
-        model.addAttribute("openid", openidTokenObj);
         LOG.debug("openid: " + openidTokenObj);
+        model.addAttribute("openid", openidTokenObj);
         return "goods/list";
+
     }
 
 
