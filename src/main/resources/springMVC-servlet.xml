@@ -54,4 +54,11 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.billy.weixinoauthcodeoptimization.WxOAuth2Interceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>  
