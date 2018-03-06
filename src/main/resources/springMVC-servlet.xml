@@ -57,6 +57,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/wxmpBind/**"/>
             <bean class="com.billy.weixinoauthcodeoptimization.WxOAuth2Interceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
